@@ -65,7 +65,7 @@ describe('TransactionsService', () => {
     await expect(service.create(dto)).rejects.toThrow();
   });
 
-  it('should reject refund when no exceed payments', async () => {
+  it('should reject refund when exceed payments', async () => {
     mockRepository.find.mockResolvedValue([]);
 
     const paymentDto: CreateTransactionDto = {
