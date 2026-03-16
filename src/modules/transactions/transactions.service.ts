@@ -13,9 +13,12 @@ export class TransactionsService {
   ) {}
   async create(dto: CreateTransactionDto) {
     const transactions = await this.repository.find({
-      where: { invoiceId: dto.invoice_id },
+      where: { invoiceId: dto.invoiceId },
     });
 
+    if (dto.type === TransactionType.REFUND && transactions.length === 0) {
+      throw new BadRequestException('Cannot refund without payment');
+    }
     const payments = transactions
       .filter((t) => t.type === TransactionType.PAYMENT)
       .reduce((sum, t) => sum + Number(t.amount), 0);
