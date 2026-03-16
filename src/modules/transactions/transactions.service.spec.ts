@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Transaction } from './entities/transaction.entity';
 import { TransactionType } from './enums/transaction-type';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
 
 describe('TransactionsService', () => {
   let service: TransactionsService;
