@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Transaction } from './entities/transaction.entity';
 import { TransactionType } from './enums/transaction-type';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
 
 describe('TransactionsService', () => {
   let service: TransactionsService;
@@ -49,5 +50,18 @@ describe('TransactionsService', () => {
 
     expect(mockRepository.save).toHaveBeenCalled();
     expect(result).toBeDefined();
+  });
+
+  it('should reject refund when no payment exists', async () => {
+    mockRepository.find.mockResolvedValue([]);
+
+    const dto: CreateTransactionDto = {
+      invoice_id: '08c2dda4-bf2b-4dc3-8578-23c5b9c1e680',
+      type: TransactionType.REFUND,
+      amount: 50,
+      currency: 'USD',
+    };
+
+    await expect(service.create(dto)).rejects.toThrow();
   });
 });
