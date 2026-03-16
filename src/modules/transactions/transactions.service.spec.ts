@@ -64,4 +64,26 @@ describe('TransactionsService', () => {
 
     await expect(service.create(dto)).rejects.toThrow();
   });
+
+  it('should reject refund when no exceed payments', async () => {
+    mockRepository.find.mockResolvedValue([]);
+
+    const paymentDto: CreateTransactionDto = {
+      invoice_id: '08c2dda4-bf2b-4dc3-8578-23c5b9c1e680',
+      type: TransactionType.PAYMENT,
+      amount: 50,
+      currency: 'USD',
+    };
+
+    const refundDto: CreateTransactionDto = {
+      invoice_id: '08c2dda4-bf2b-4dc3-8578-23c5b9c1e680',
+      type: TransactionType.REFUND,
+      amount: 100,
+      currency: 'USD',
+    };
+
+    service.create(paymentDto);
+
+    await expect(service.create(refundDto)).rejects.toThrow();
+  });
 });
