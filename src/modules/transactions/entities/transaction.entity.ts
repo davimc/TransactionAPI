@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { TransactionType } from '../enums/transaction-type';
 
 @Entity()
 export class Transaction {
@@ -6,7 +7,7 @@ export class Transaction {
   id: string;
 
   @Column()
-  invoceId: string;
+  invoiceId: string;
 
   @Column({
     type: 'text',

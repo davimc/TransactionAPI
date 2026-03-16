@@ -1,15 +1,16 @@
-import { IsEnum, isNumber, isString } from 'class-validator';
+import { IsEnum, IsNumber, IsString } from 'class-validator';
+import { TransactionType } from '../enums/transaction-type';
 
 export class CreateTransactionDto {
-  @isString()
+  @IsString()
   invoice_id: string;
 
   @IsEnum(TransactionType)
-  type: PaymentType;
+  type: TransactionType;
 
-  @isNumber()
+  @IsNumber()
   amount: number;
 
-  @isString()
+  @IsString()
   currency: string;
 }
