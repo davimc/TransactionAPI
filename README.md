@@ -34,12 +34,15 @@ src
 
 ## Using Docker (recommended)
 
-Build and start the container:
 ```
 
+Build and start the container:
+
+```
 docker compose up --build
 
 ```
+
 The API will be available at:
 
 ```
@@ -76,7 +79,7 @@ yarn start:dev
 
 POST /transactions
 
-````
+```
 
 Example request:
 
@@ -87,7 +90,7 @@ Example request:
   "amount": 100,
   "currency": "USD"
 }
-````
+```
 
 Transaction types:
 
