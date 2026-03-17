@@ -31,6 +31,18 @@ src
  │       ├ invoices.controller.ts
  │       └ invoices.service.ts
  ├ app.module.ts
+
+## Using Docker (recommended)
+
+Build and start the container:
+```
+
+docker compose up --build
+
+The API will be available at:
+
+```
+http://localhost:3000
 ```
 
 ## Running Locally
