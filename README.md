@@ -39,10 +39,13 @@ Build and start the container:
 
 docker compose up --build
 
+```
 The API will be available at:
 
 ```
+
 http://localhost:3000
+
 ```
 
 ## Running Locally
@@ -50,13 +53,17 @@ http://localhost:3000
 Install dependencies:
 
 ```
+
 yarn install
+
 ```
 
 Start the development server:
 
 ```
+
 yarn start:dev
+
 ```
 
 ---
@@ -66,8 +73,10 @@ yarn start:dev
 ## Create Transaction
 
 ```
+
 POST /transactions
-```
+
+````
 
 Example request:
 
@@ -78,7 +87,7 @@ Example request:
   "amount": 100,
   "currency": "USD"
 }
-```
+````
 
 Transaction types:
 
