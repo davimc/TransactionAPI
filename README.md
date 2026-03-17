@@ -69,6 +69,12 @@ yarn start:dev
 
 ```
 
+```
+
+http://localhost:3000
+
+```
+
 ---
 
 # API Endpoints
