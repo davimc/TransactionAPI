@@ -4,14 +4,14 @@ import {
   IsNumber,
   IsPositive,
   IsString,
-  IsUUID,
 } from 'class-validator';
 import { TransactionType } from '../enums/transaction-type';
+import { Currency } from '../enums/currency-type';
 
 export class CreateTransactionDto {
-  @IsUUID()
+  @IsString()
   @IsNotEmpty()
-  invoice_id: string;
+  invoiceId: string;
 
   @IsEnum(TransactionType)
   type: TransactionType;
@@ -20,6 +20,6 @@ export class CreateTransactionDto {
   @IsPositive()
   amount: number;
 
-  @IsString()
-  currency: string;
+  @IsEnum(Currency)
+  currency: Currency;
 }
