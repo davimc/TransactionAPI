@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TransactionsService } from '../transactions/transactions.service';
 import { TransactionType } from '../transactions/enums/transaction-type';
+import { calculateTransactionsBalanceInDollar } from 'src/utils/api.monetaria';
 
 @Injectable()
 export class InvoicesService {
@@ -10,18 +11,13 @@ export class InvoicesService {
     const transactions =
       await this.transactionsService.findByInvoice(invoiceId);
 
-    const payments = transactions
-      .filter((t) => t.type === TransactionType.PAYMENT)
-      .reduce((sum, t) => sum + Number(t.amount), 0);
-
-    const refunds = transactions
-      .filter((t) => t.type === TransactionType.REFUND)
-      .reduce((sum, t) => sum + Number(t.amount), 0);
+    const [payments, refunds] =
+      calculateTransactionsBalanceInDollar(transactions);
 
     return {
       invoiceId,
       transactions,
-      balance: payments - refunds,
+      balance: '$' + (payments - refunds),
     };
   }
 }

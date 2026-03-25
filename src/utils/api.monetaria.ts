@@ -10,7 +10,7 @@ export const CurrencyConfig = {
   [Currency.LIBRA]: { rateToUSD: 1.2 },
 };
 
-export function calculateBalanceInDollar(
+export function calculateTransactionsBalanceInDollar(
   transactions: Transaction[],
 ): [number, number] {
   const payments = calculateTransactionType(
