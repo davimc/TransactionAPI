@@ -5,7 +5,7 @@ import { Transaction } from './entities/transaction.entity';
 import { Repository } from 'typeorm';
 import { TransactionType } from './enums/transaction-type';
 import {
-  calculateBalanceInDollar,
+  calculateTransactionsBalanceInDollar,
   convertValueToDollar,
 } from 'src/utils/api.monetaria';
 
@@ -35,7 +35,8 @@ export class TransactionsService {
     dto: CreateTransactionDto,
     transactions: Transaction[],
   ) {
-    const [payments, refunds] = calculateBalanceInDollar(transactions);
+    const [payments, refunds] =
+      calculateTransactionsBalanceInDollar(transactions);
     const convertedAmount = convertValueToDollar(dto);
     if (dto.type === TransactionType.REFUND) {
       if (payments === 0) throw new BadRequestException('No payment found');
