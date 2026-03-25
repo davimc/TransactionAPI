@@ -93,7 +93,7 @@ Example request:
 
 ```json
 {
-  "invoice_id": "123",
+  "invoiceId": "123",
   "type": "payment",
   "amount": 100,
   "currency": "USD"
@@ -117,7 +117,7 @@ Example response:
 
 ```json
 {
-  "invoice_id": "123",
+  "invoiceId": "123",
   "transactions": [
     {
       "id": "tx1",
