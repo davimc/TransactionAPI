@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { TransactionsService } from '../transactions/transactions.service';
 import { TransactionType } from '../transactions/enums/transaction-type';
 import { calculateTransactionsBalanceInDollar } from 'src/utils/api.monetaria';
@@ -10,7 +10,8 @@ export class InvoicesService {
   async getTransactions(invoiceId: string) {
     const transactions =
       await this.transactionsService.findByInvoice(invoiceId);
-
+    if (transactions.length === 0)
+      throw new BadRequestException('Invoice not found');
     const [payments, refunds] =
       calculateTransactionsBalanceInDollar(transactions);
 
