@@ -11,7 +11,7 @@ import { TransactionType } from '../enums/transaction-type';
 export class CreateTransactionDto {
   @IsUUID()
   @IsNotEmpty()
-  invoiceId: string;
+  invoice_id: string;
 
   @IsEnum(TransactionType)
   type: TransactionType;
