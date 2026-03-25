@@ -4,6 +4,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Transaction } from './entities/transaction.entity';
 import { Repository } from 'typeorm';
 import { TransactionType } from './enums/transaction-type';
+import {
+  calculateBalanceInDollar,
+  convertValueToDollar,
+} from 'src/utils/api.monetaria';
 
 @Injectable()
 export class TransactionsService {
@@ -12,30 +16,12 @@ export class TransactionsService {
     private readonly repository: Repository<Transaction>,
   ) {}
   async create(dto: CreateTransactionDto) {
-    const transactions = await this.repository.find({
-      where: { invoiceId: dto.invoiceId },
-    });
+    const transactions = await this.findByInvoice(dto.invoiceId);
 
-    if (dto.type === TransactionType.REFUND && transactions.length === 0) {
-      throw new BadRequestException('Cannot refund without payment');
-    }
-    const payments = transactions
-      .filter((t) => t.type === TransactionType.PAYMENT)
-      .reduce((sum, t) => sum + Number(t.amount), 0);
-
-    const refunds = transactions
-      .filter((t) => t.type === TransactionType.REFUND)
-      .reduce((sum, t) => sum + Number(t.amount), 0);
-
-    if (dto.type === TransactionType.REFUND) {
-      if (payments === 0) throw new BadRequestException('No payment found');
-
-      if (refunds + dto.amount > payments)
-        throw new BadRequestException('Refund exceeds payment');
-    }
+    // dto.amount = convertValueToDollar(dto);
+    this.validateTransaction(dto, transactions);
 
     const transaction = this.repository.create(dto);
-
     return this.repository.save(transaction);
   }
 
@@ -45,15 +31,17 @@ export class TransactionsService {
     });
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} transaction`;
-  // }
+  private validateTransaction(
+    dto: CreateTransactionDto,
+    transactions: Transaction[],
+  ) {
+    const [payments, refunds] = calculateBalanceInDollar(transactions);
+    const convertedAmount = convertValueToDollar(dto);
+    if (dto.type === TransactionType.REFUND) {
+      if (payments === 0) throw new BadRequestException('No payment found');
 
-  // update(id: number, updateTransactionDto: UpdateTransactionDto) {
-  //   return `This action updates a #${id} transaction`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} transaction`;
-  // }
+      if (refunds + convertedAmount > payments)
+        throw new BadRequestException('Refund exceeds payment');
+    }
+  }
 }

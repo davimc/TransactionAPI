@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { TransactionType } from '../enums/transaction-type';
+import { Currency } from '../enums/currency-type';
 
 @Entity()
 export class Transaction {
@@ -17,6 +18,8 @@ export class Transaction {
   @Column('decimal')
   amount: number;
 
-  @Column()
-  currency: string;
+  @Column({
+    type: 'text',
+  })
+  currency: Currency;
 }
