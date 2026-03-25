@@ -13,7 +13,7 @@ export class TransactionsService {
   ) {}
   async create(dto: CreateTransactionDto) {
     const transactions = await this.repository.find({
-      where: { invoiceId: dto.invoice_id },
+      where: { invoiceId: dto.invoiceId },
     });
 
     if (dto.type === TransactionType.REFUND && transactions.length === 0) {
